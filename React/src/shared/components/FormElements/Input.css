@@ -29,6 +29,7 @@
   border-color: #510077;
 }
 
+.form-control--invalid label,
 .form-control--invalid p {
   color: red;
 }

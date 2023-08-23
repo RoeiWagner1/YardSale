@@ -6,13 +6,13 @@ import Button from "../../shared/components/FormElements/Button";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import {
+  VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
   VALIDATOR_NUM,
-  VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/Context/auth-context";
+import { AuthContext } from "../../shared/context/auth-context";
 import "./ItemForm.css";
 
 const NewItem = () => {
@@ -46,21 +46,23 @@ const NewItem = () => {
 
   const history = useHistory();
 
-  const itemSubmitHandler = async event => {
+  const itemSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       await sendRequest(
-        "http://localhost:5000/items/new",
-        "POST",
+        'http://localhost:5000/api/items',
+        'POST',
         JSON.stringify({
-          title: formState.Inputs.title.value,
-          description: formState.Inputs.description.value,
-          address: formState.Inputs.address.value,
-          price: formState.Inputs.price.value,
-          mobile: formState.Inputs.mobile.value,
+          title: formState.inputs.title.value,
+          address: formState.inputs.address.value,
+          price: formState.inputs.price.value,
+          description: formState.inputs.description.value,
+          mobile: formState.inputs.mobile.value,
           creator: auth.userId,
-        }), { "Content-Type": "application/json" });
-        history.push('/');
+        }),
+        { "Content-Type": "application/json" }
+      );
+      history.push("/");
     } catch (err) {}
   };
 
@@ -116,6 +118,6 @@ const NewItem = () => {
       </form>
     </React.Fragment>
   );
-}
+};
 
 export default NewItem;

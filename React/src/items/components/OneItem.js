@@ -4,10 +4,14 @@ import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
-import { AuthContext } from "../../shared/Context/auth-context";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./OneItem.css";
 
-const OneItem = props => {
+const OneItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -24,13 +28,20 @@ const OneItem = props => {
     setShowConfirmModal(false);
   };
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
-    console.log('DELETING...');
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/items/${props.id}`,
+        'DELETE'
+      );
+      props.onDelete(props.id);
+    } catch (err) {}
   };
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -59,12 +70,11 @@ const OneItem = props => {
           </React.Fragment>
         }
       >
-        <p>
-          Do you want to proceed and permanently delete this item?
-        </p>
+        <p>Do you want to proceed and permanently delete this item?</p>
       </Modal>
       <li className="one-item">
         <Card className="one-item__content">
+          {isLoading && <LoadingSpinner asOverlay/>}
           <div className="one-item__image">
             <img src={props.image} alt={props.title} />
           </div>
@@ -79,9 +89,8 @@ const OneItem = props => {
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            {auth.isLoggedIn && (
-            <Button to={`/items/${props.id}`}>EDIT</Button>
-            )}
+            {auth.isLoggedIn && <Button to={`/items/${props.id}`}>EDIT</Button>}
+
             {auth.isLoggedIn && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
@@ -92,6 +101,6 @@ const OneItem = props => {
       </li>
     </React.Fragment>
   );
-}
+};
 
 export default OneItem;

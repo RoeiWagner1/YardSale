@@ -1,38 +1,38 @@
-const express = require("express");
+const express = require('express');
 const { check } = require('express-validator');
 
-const itemsConstrollers = require('../controllers/items-contorllers');
+const itemsControllers = require('../controllers/items-controllers');
 
 const router = express.Router();
 
-router.get("/:tid", itemsConstrollers.getItemById);
+router.get("/:tid", itemsControllers.getItemById);
 
-router.get("/user/:uid", itemsConstrollers.getItemsByUserId);
+router.get('/user/:uid', itemsControllers.getItemsByUserId);
 
 router.post(
   '/',
   [
-    check("title").not().isEmpty(),
-    check("description").isLength({ min: 5 }),
-    check("address").not().isEmpty(),
-    check("price").not().isEmpty(),
-    check("mobile").isLength({ min: 10 }),
+    check('title').not().isEmpty(),
+    check('address').not().isEmpty(),
+    check('price').not().isEmpty(),
+    check('description').isLength({ min: 5 }),
+    check('mobile').isLength({ min: 10 }),
   ],
-  itemsConstrollers.createItem
+  itemsControllers.createItem
 );
 
 router.patch(
   "/:tid",
   [
-    check("title").not().isEmpty(),
-    check("description").isLength({ min: 5 }),
-    check("address").not().isEmpty(),
-    check("price").not().isEmpty(),
-    check("mobile").isLength({ min: 10 }),
+    check('title').not().isEmpty(),
+    check('address').not().isEmpty(),
+    check('price').not().isEmpty(),
+    check('description').isLength({ min: 5 }),
+    check('mobile').isLength({ min: 10 }),
   ],
-  itemsConstrollers.updateItem
+  itemsControllers.updateItem
 );
 
-router.delete("/:tid", itemsConstrollers.deleteItem);
+router.delete("/:tid", itemsControllers.deleteItem);
 
 module.exports = router;

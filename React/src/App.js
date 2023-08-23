@@ -1,19 +1,18 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch,
-} from "react-router-dom";
+  Switch
+} from 'react-router-dom';
 
-import Home from "./shared/pages/Home";
 import Users from "./user/pages/Users";
 import NewItem from "./items/pages/NewItem";
-import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import UserItems from "./items/pages/UserItems";
 import UpdateItem from "./items/pages/UpdateItem";
-import Auth from "./user/pages/Auth";
-import { AuthContext } from "./shared/Context/auth-context";
+import Auth from './user/pages/Auth';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
+import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,9 +34,6 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Home />
-        </Route>
-        <Route path="/users" exact>
           <Users />
         </Route>
         <Route path="/:userId/items" exact>
@@ -56,7 +52,7 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Home />
+          <Users />
         </Route>
         <Route path="/login" exact>
           <Auth />
@@ -68,12 +64,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider
-      value={{
-        isLoggedIn: isLoggedIn,
-        userId: userId,
-        login: login,
-        logout: logout,
-      }}
+      value={{ isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout }}
     >
       <Router>
         <MainNavigation />
