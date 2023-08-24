@@ -33,7 +33,7 @@ const OneItem = (props) => {
     try {
       await sendRequest(
         `http://localhost:5000/api/items/${props.id}`,
-        'DELETE'
+        "DELETE"
       );
       props.onDelete(props.id);
     } catch (err) {}
@@ -74,7 +74,7 @@ const OneItem = (props) => {
       </Modal>
       <li className="one-item">
         <Card className="one-item__content">
-          {isLoading && <LoadingSpinner asOverlay/>}
+          {isLoading && <LoadingSpinner asOverlay />}
           <div className="one-item__image">
             <img src={props.image} alt={props.title} />
           </div>
@@ -89,9 +89,11 @@ const OneItem = (props) => {
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            {auth.isLoggedIn && <Button to={`/items/${props.id}`}>EDIT</Button>}
+            {auth.userId === props.creatorId && (
+              <Button to={`/items/${props.id}`}>EDIT</Button>
+            )}
 
-            {auth.isLoggedIn && (
+            {auth.userId === props.creatorId && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>

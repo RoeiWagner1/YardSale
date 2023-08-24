@@ -37,7 +37,7 @@ const MainNavigation = props => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/"><h5>YardSale</h5></Link>
+          <Link to="/"><h3>YardSale</h3></Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

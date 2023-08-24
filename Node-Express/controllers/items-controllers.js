@@ -167,7 +167,7 @@ const updateItem = async (req, res, next) => {
 };
 
 const deleteItem = async (req, res, next) => {
-  const itemId = req.params.pid;
+  const itemId = req.params.tid;
 
   let item;
   try {
