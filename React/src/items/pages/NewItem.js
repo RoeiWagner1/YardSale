@@ -5,6 +5,7 @@ import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -28,6 +29,10 @@ const NewItem = () => {
         value: "",
         isValid: false,
       },
+      image: {
+        value: null,
+        isValid: false,
+      },
       price: {
         value: "",
         isValid: false,
@@ -49,18 +54,18 @@ const NewItem = () => {
   const itemSubmitHandler = async (event) => {
     event.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append('title', formState.inputs.title.value);
+      formData.append('address', formState.inputs.address.value);
+      formData.append('price', formState.inputs.price.value);
+      formData.append('description', formState.inputs.description.value);
+      formData.append('mobile', formState.inputs.mobile.value);
+      formData.append('creator', auth.userId);
+      formData.append('image', formState.inputs.image.value);
       await sendRequest(
-        'http://localhost:5000/api/items',
-        'POST',
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          address: formState.inputs.address.value,
-          price: formState.inputs.price.value,
-          description: formState.inputs.description.value,
-          mobile: formState.inputs.mobile.value,
-          creator: auth.userId,
-        }),
-        { "Content-Type": "application/json" }
+        "http://localhost:5000/api/items",
+        "POST",
+        formData
       );
       history.push("/");
     } catch (err) {}
@@ -87,6 +92,11 @@ const NewItem = () => {
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid address."
           onInput={inputHandler}
+        />
+        <ImageUpload
+          id="image"
+          onInput={inputHandler}
+          errorText="Please provide an image."
         />
         <Input
           id="price"

@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -77,8 +79,7 @@ const createItem = async (req, res, next) => {
     price,
     description,
     location: coordinates,
-    image:
-      "https://www.rockingchair.co.il/wp-content/uploads/2022/05/Screenshot_18-1-800x766.png",
+    image: req.file.path,
     mobile,
     creator,
   });
@@ -185,6 +186,8 @@ const deleteItem = async (req, res, next) => {
     return next(error);
   }
 
+  const imagePath = item.image;
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -199,6 +202,10 @@ const deleteItem = async (req, res, next) => {
     );
     return next(error);
   }
+
+  fs.unlink(imagePath, err => {
+    console.log(err);
+  });
   
   res.status(200).json({ message: 'Deleted item.' });
 };
