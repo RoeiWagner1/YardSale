@@ -101,6 +101,7 @@ const UpdateItem = () => {
         }),
         {
           "Content-Type": "application/json",
+          Authorization: 'Bearer ' + auth.token
         }
       );
       history.push('/' + auth.userId + '/items');

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import MainHeader from './MainHeader';
-import NavLinks from './NavLinks';
-import SideDrawer from './SideDrawer';
-import Backdrop from '../UIElements/Backdrop';
-import './MainNavigation.css';
+import MainHeader from "./MainHeader";
+import NavLinks from "./NavLinks";
+import SideDrawer from "./SideDrawer";
+import Backdrop from "../UIElements/Backdrop";
+import "./MainNavigation.css";
 
-const MainNavigation = props => {
+const MainNavigation = (props) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const openDrawerHandler = () => {
@@ -37,7 +37,14 @@ const MainNavigation = props => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/"><h3>YardSale</h3></Link>
+          <Link to="/">
+            <h3>YardSale
+              {/* <img
+                src="https://www.kindpng.com/picc/m/189-1898736_transparent-yard-sale-png-yard-sale-clipart-black.png"
+                alt="Yard Sale Sign"
+              /> */}
+              </h3>
+          </Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

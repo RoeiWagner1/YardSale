@@ -64,7 +64,7 @@ const createItem = async (req, res, next) => {
     );
   }
 
-  const { title, address, price, description, mobile, creator } = req.body;
+  const { title, address, price, description, mobile } = req.body;
 
   let coordinates;
   try {
@@ -81,12 +81,12 @@ const createItem = async (req, res, next) => {
     location: coordinates,
     image: req.file.path,
     mobile,
-    creator,
+    creator: req.userData.userId,
   });
 
   let user;
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userId);
   } catch (err) {
     const error = new HttpError(
       'Creating item failed, please try again.',
@@ -142,6 +142,14 @@ const updateItem = async (req, res, next) => {
     return next(error);
   }
 
+  if (item.creator.toString() !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to edit this item.',
+      401
+    );
+    return next(error);
+  }
+
   item.title = title;
   item.description = description;
   item.address = address;
@@ -183,6 +191,14 @@ const deleteItem = async (req, res, next) => {
 
   if (!item) {
     const error = new HttpError('Could not find an item for this id.', 404);
+    return next(error);
+  }
+
+  if (item.creator.id !== req.userData.userId) {
+    const error = new HttpError(
+      'You are not allowed to delete this item.',
+      401
+    );
     return next(error);
   }
 

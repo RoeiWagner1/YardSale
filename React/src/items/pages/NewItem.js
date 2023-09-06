@@ -60,12 +60,12 @@ const NewItem = () => {
       formData.append('price', formState.inputs.price.value);
       formData.append('description', formState.inputs.description.value);
       formData.append('mobile', formState.inputs.mobile.value);
-      formData.append('creator', auth.userId);
       formData.append('image', formState.inputs.image.value);
       await sendRequest(
         "http://localhost:5000/api/items",
         "POST",
-        formData
+        formData,
+        {Authorization: 'Bearer ' + auth.token}
       );
       history.push("/");
     } catch (err) {}

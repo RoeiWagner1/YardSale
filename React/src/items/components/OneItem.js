@@ -33,7 +33,11 @@ const OneItem = (props) => {
     try {
       await sendRequest(
         `http://localhost:5000/api/items/${props.id}`,
-        "DELETE"
+        "DELETE",
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token
+        }
       );
       props.onDelete(props.id);
     } catch (err) {}
@@ -76,12 +80,15 @@ const OneItem = (props) => {
         <Card className="one-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="one-item__image">
-            <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
+            <img
+              src={`http://localhost:5000/${props.image}`}
+              alt={props.title}
+            />
           </div>
           <div className="one-item__info">
             <h2>{props.title}</h2>
-            <h3>{props.address}</h3>
-            <h3>{props.price}</h3>
+            <h4>{props.address}</h4>
+            <h4>{props.price}₪</h4>
             <p>{props.description}</p>
             <p>{props.mobile}</p>
           </div>

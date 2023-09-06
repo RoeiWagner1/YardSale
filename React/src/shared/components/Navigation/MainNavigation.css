@@ -21,6 +21,13 @@
   color: white;
 }
 
+.main-navigation__title img {
+  width: 12rem;
+  height: 55px;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
 .main-navigation__title a {
   text-decoration: none;
   color: white;
