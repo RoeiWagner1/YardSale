@@ -62,7 +62,7 @@ const NewItem = () => {
       formData.append('mobile', formState.inputs.mobile.value);
       formData.append('image', formState.inputs.image.value);
       await sendRequest(
-        "http://localhost:5000/api/items",
+        process.env.REACT_APP_BACKEND_URL + '/items',
         "POST",
         formData,
         {Authorization: 'Bearer ' + auth.token}

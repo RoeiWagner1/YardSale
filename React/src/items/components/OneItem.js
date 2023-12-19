@@ -32,7 +32,7 @@ const OneItem = (props) => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5000/api/items/${props.id}`,
+        process.env.REACT_APP_BACKEND_URL + `/items/${props.id}`,
         "DELETE",
         null,
         {
@@ -81,15 +81,15 @@ const OneItem = (props) => {
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="one-item__image">
             <img
-              src={`http://localhost:5000/${props.image}`}
+              src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
               alt={props.title}
             />
           </div>
           <div className="one-item__info">
-            <h2>{props.title}</h2>
-            <h4>{props.address}</h4>
-            <h4>{props.price}₪</h4>
-            <p>{props.description}</p>
+            <h2 dir="rtl">{props.title}</h2>
+            <h4 dir="rtl">{props.address}</h4>
+            <h4 dir="rtl">{props.price}₪</h4>
+            <p dir="rtl">{props.description}</p>
             <p>{props.mobile}</p>
           </div>
           <div className="one-item__actions">
